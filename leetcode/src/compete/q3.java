@@ -1,3 +1,5 @@
+package compete;
+
 import java.util.HashMap;
 
 public class q3 {

@@ -1,6 +1,6 @@
-import java.util.ArrayList;
+package compete;
+
 import java.util.HashSet;
-import java.util.List;
 
 public class q2 {
 

@@ -1,3 +1,5 @@
+package compete;
+
 public class StringMul {
 
     public static void main(String[] args) {

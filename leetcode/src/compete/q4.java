@@ -1,3 +1,5 @@
+package compete;
+
 import java.util.*;
 
 public class q4 {
