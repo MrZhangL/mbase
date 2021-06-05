@@ -1,44 +1,70 @@
 package compete;
 
-import java.util.HashSet;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class q2 {
 
     public static void main(String[] args) {
-        String s = "ibpbhixfiouhdljnjfflpapptrxgcomvnb";
-        System.out.println(s.length());
-
-        q2 q = new q2();
-
-        System.out.println(q.maxVowels(s, 33));
+        List<Integer> l = new ArrayList<>();
+        for(int i : l) {
+            System.out.println(i);
+        }
     }
-    public int maxVowels(String s, int k) {
-        int max = 0;
-        int pre = 0;
-        HashSet<Character> set = new HashSet<>();
-        set.add('a');
-        set.add('e');
-        set.add('i');
-        set.add('o');
-        set.add('u');
 
-        for(int i = 0; i < k; i++){
-            if(set.contains(s.charAt(i))){
-                pre++;
-            }
-        }
-        max = pre;
-        for (int i = 1; i <= s.length() - k ; i++) {
-            if(set.contains(s.charAt(i-1))){
-                pre--;
-            }
-            if(set.contains(s.charAt(i+k-1))){
-                pre++;
-            }
+    int cnt = 0;
 
-            max = Math.max(pre, max);
+    public int countPairs(TreeNode root, int distance) {
+        dfs(root, distance);
+        return cnt;
+    }
+
+    private List<Integer> dfs(TreeNode n, int distance) {
+        List<Integer> l = n.left == null? new LinkedList<>() : dfs(n.left, distance);
+        List<Integer> r = n.right == null? new LinkedList<>() : dfs(n.right, distance);
+        List<Integer> rt = new LinkedList<>();
+
+        if(l.size() == 0 && r.size() == 0) {
+            rt.add(1);
+            return rt;
         }
 
-        return max;
+        for(int ll : l) {
+            for(int rr : r) {
+                if(ll + rr <= distance) {
+                    cnt++;
+                }
+            }
+            rt.add(ll+1);
+        }
+
+        for (int rr : r) {
+            rt.add(rr+1);
+        }
+
+
+
+        return rt;
+    }
+}
+
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+
+    TreeNode() {
+    }
+
+    TreeNode(int val) {
+        this.val = val;
+    }
+
+    TreeNode(int val, TreeNode left, TreeNode right) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
     }
 }

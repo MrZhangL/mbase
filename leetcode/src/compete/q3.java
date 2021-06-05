@@ -1,86 +1,61 @@
 package compete;
 
+
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Set;
 
 public class q3 {
 
     public static void main(String[] args) {
-        TreeNode root = new TreeNode(2);
-        root.left = new TreeNode(3);
-        root.right = new TreeNode(1);
-        root.left.left = new TreeNode(3);
-        root.left.right = new TreeNode(1);
-        root.right.right = new TreeNode(1);
-
         q3 q = new q3();
-        System.out.println(q.pseudoPalindromicPaths(root));
-    }
-    private int count = 0;
-
-    public int pseudoPalindromicPaths (TreeNode root) {
-        midOrder(root, new StringBuilder());
-        return count;
+        System.out.println(q.minCost("bbbaaa", new int[]{4,9,3,8,8,9}));    //23
+        System.out.println(q.minCost("aabaa", new int[]{1,2,3,4,1}));    //2
     }
 
-    private void midOrder(TreeNode node, StringBuilder s){
-        s.append(String.valueOf(node.val));
-        if(node.left != null){
-            midOrder(node.left, s);
-        }
-        if(node.right != null){
-            midOrder(node.right, s);
-        }
+    public int minCost(String s, int[] cost) {
+        StringBuilder sb = new StringBuilder();
+        boolean cf = false;
+        int maxlst = 0;
+        LinkedList<Integer> ls = new LinkedList<>();
 
-        if(node.left == null && node.right == null){
-            if(judgePali(s)){
-                count++;
-            }
-        }
-
-        s.delete(s.length() - 1, s.length());
-    }
-
-    private boolean judgePali(StringBuilder s){
-        HashMap<Character, Integer> map = new HashMap<>();
-        for(int i = 0; i < s.length(); i++){
-            if(map.containsKey(s.charAt(i))){
-                map.put(s.charAt(i), map.get(s.charAt(i)) + 1);
-            }
-            else{
-                map.put(s.charAt(i), 0);
-            }
-        }
-
-        int jc = 0;
-        boolean g = (s.length() % 2 == 0);
-
-        for(Character key : map.keySet()){
-            if(map.get(key)%2 != 0){
-                if(g){
-                    return false;
-                }
-                else{
-                    jc++;
-                    if(jc > 1){
-                        return false;
-                    }
+        int sumcost = 0;
+        for (int i = 1; i < s.length(); i++) {
+            if(s.charAt(i) == s.charAt(i-1)) {
+                cf = true;
+                if(cost[maxlst] < cost[i]) {
+                    maxlst = i;
                 }
             }
+            else {
+                if(cf) {
+                    ls.addLast(maxlst);
+                } else {
+                    ls.addLast(i-1);
+                }
+                cf = false;
+                maxlst = i;
+            }
         }
 
-        return true;
+        if(cf) {
+            ls.addLast(maxlst);
+        } else {
+            ls.addLast(s.length()-1);
+        }
+
+        for (int i = 0; i < cost.length; i++) {
+            sumcost += cost[i];
+        }
+        for (int cs : ls) {
+            sumcost -= cost[cs];
+        }
+
+        return sumcost;
     }
+
+
 }
 
-class TreeNode {
-      int val;
-      TreeNode left;
-      TreeNode right;
-      TreeNode() {}
-      TreeNode(int val) { this.val = val; }
-      TreeNode(int val, TreeNode left, TreeNode right) {
-          this.val = val;
-          this.left = left;
-          this.right = right;
-  }
-}
+

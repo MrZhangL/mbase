@@ -2,47 +2,59 @@ package compete;
 
 import java.util.*;
 
-public class q4 {
+class BrowserHistory {
 
     public static void main(String[] args) {
-        q4 q = new q4();
-        System.out.println(q.restoreIpAddresses("255255255255"));
-
+        BrowserHistory browserHistory = new BrowserHistory("leetcode.com");
+        browserHistory.visit("google.com");       // 你原本在浏览 "leetcode.com" 。访问 "google.com"
+        browserHistory.visit("facebook.com");     // 你原本在浏览 "google.com" 。访问 "facebook.com"
+        browserHistory.visit("youtube.com");      // 你原本在浏览 "facebook.com" 。访问 "youtube.com"
+        browserHistory.back(1);                   // 你原本在浏览 "youtube.com" ，后退到 "facebook.com" 并返回 "facebook.com"
+        browserHistory.back(1);                   // 你原本在浏览 "facebook.com" ，后退到 "google.com" 并返回 "google.com"
+        browserHistory.forward(1);                // 你原本在浏览 "google.com" ，前进到 "facebook.com" 并返回 "facebook.com"
+        browserHistory.visit("linkedin.com");     // 你原本在浏览 "facebook.com" 。 访问 "linkedin.com"
+        browserHistory.forward(2);                // 你原本在浏览 "linkedin.com" ，你无法前进任何步数。
+        browserHistory.back(2);                   // 你原本在浏览 "linkedin.com" ，后退两步依次先到 "facebook.com" ，然后到 "google.com" ，并返回 "google.com"
+        browserHistory.back(7);                   // 你原本在浏览 "google.com"， 你只能后退一步到 "leetcode.com" ，并返回 "leetcode.com"
     }
 
-    List<String> rtS = new ArrayList<>();
+    private String homepage;
+    private List<String> history;
+    private int index;
 
-    public List<String> restoreIpAddresses(String s) {
-        dfs(s, new StringBuilder(), 1);
-
-        return rtS;
+    public BrowserHistory(String homepage) {
+        this.homepage = homepage;
+        history = new ArrayList<>();
+        history.add(homepage);
+        index = 0;
     }
 
-    private boolean dfs(String s, StringBuilder sb, int n){
-        if(s.length() < 5 - n || s.length() > 3*(5-n)){
-            return false;
+    public void visit(String url) {
+        for(int i = history.size() - 1; i > index; i--) {
+            history.remove(i);
         }
+        history.add(url);
+        index = history.size()-1;
+    }
 
-        if(n == 4 && Integer.parseInt(s) <= 255 && !(s.length() > 1 && s.charAt(0) == '0')){
-            rtS.add(sb.append(s).toString());
-            sb.delete(sb.length() - s.length(), sb.length());
-            return true;
-        }
+    public String back(int steps) {
+        index = index - steps >= 0? index - steps : 0;
 
-        String sub;
-        boolean flag = false;
-        for(int i = 1; i < 4 && i < s.length(); i++){
-            sub = s.substring(0,i);
-            if(Integer.parseInt(sub.toString()) > 255 || (i > 1 && sub.charAt(0) == '0')){
-                return flag;
-            }
+        return history.get(index);
+    }
 
-            flag = dfs(s.substring(i, s.length()),
-                    sb.append(sub + "."), n+1);
-
-            sb.delete(sb.length() - i - 1, sb.length());
-        }
-
-        return flag;
+    public String forward(int steps) {
+        index = index + steps < history.size()? index + steps : history.size() - 1;
+        return history.get(index);
     }
 }
+
+
+
+/**
+ * Your BrowserHistory object will be instantiated and called as such:
+ * BrowserHistory obj = new BrowserHistory(homepage);
+ * obj.visit(url);
+ * String param_2 = obj.back(steps);
+ * String param_3 = obj.forward(steps);
+ */

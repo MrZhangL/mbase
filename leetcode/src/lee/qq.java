@@ -1,35 +1,48 @@
 package lee;
 
+import java.util.Arrays;
+import java.util.Random;
+
 public class qq {
 
-    public static void up(int[] heap, int index) {
-        int parent = (index-1)>>1;
-        while(index > 0){
-            if(heap[index] < heap[parent]){
-                swap(heap, index, parent);
-                index = parent;
-                parent = (index-1)>>1;
-            } else {
-                break;
-            }
-        }
-        checkHeap(heap);
+
+    public static void main(String[] args) {
+        int[] arr = {1,2,3,4,5,6,7,8,1,2,3,4,0,1,2,5,12,12,14,10};
+        int[] arr2 = {1,2,3,4,5,6,7,8,1,2,3,4,0,1,2,5,12,12,14,10};
+        Arrays.sort(arr);
+
+        System.out.println(quickSel(arr2, 4, 0, arr.length - 1));
+        System.out.println(arr[arr.length - 5]);
+
     }
 
-    public static void swap(int[] heap, int i1, int i2) {
-        int tmp = heap[i1];
-        heap[i1] = heap[i2];
-        heap[i2] = tmp;
+    static Random rand = new Random();
+    static int quickSel(int[] scores, int x, int left, int right) {
+        if(left >= right) {
+            return left == x ? scores[left] : scores[right];
+        }
+        int l = left, r = right;
+        int h = left + rand.nextInt(right - left + 1);
+
+        swap(scores, left, h);
+        while(l < r) {
+            while (l < r && scores[l] >= scores[left]) l++;
+            while(l < r && scores[r] < scores[left]) r--;
+
+            swap(scores, l, r);
+        }
+
+        if(scores[l] < scores[left]) l--;
+        swap(scores, left , l);
+
+        if(x == l) return scores[l];
+        if(l < x) return quickSel(scores, x, l + 1, right);
+        else return quickSel(scores, x, left, l-1);
+    }
+    static void swap(int[] scores, int i, int j) {
+        int tmp = scores[i];
+        scores[i] = scores[j];
+        scores[j] = tmp;
     }
 
-    public static void checkHeap(int[] heap){
-        for(int i = 0; (i<<1 + 1) < heap.length; i++) {
-            if(heap[i<<1 + 1] < heap[i] ) {
-                System.out.println("heap error");
-            }
-            if(i<<1 + 2 < heap.length && heap[i<<1 + 2] < heap[i+1]){
-                System.out.println("heap error");
-            }
-        }
-    }
 }

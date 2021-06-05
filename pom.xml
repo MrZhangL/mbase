@@ -11,12 +11,25 @@
 
     <modules>
         <module>multiThread</module>
+        <module>ZJURepoter</module>
+        <module>toolLearn</module>
+        <module>agent</module>
+        <module>agent/agent-def</module>
+        <module>agent/agent-use</module>
     </modules>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.12</version>
+        </dependency>
+    </dependencies>
 
 
 

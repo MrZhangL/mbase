@@ -7,7 +7,6 @@ import java.util.Deque;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.function.Consumer;
 
 @Slf4j
 public class BlockQueue<T> {

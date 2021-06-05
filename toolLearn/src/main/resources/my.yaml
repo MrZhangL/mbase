@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    nacos:
+      server-addr: labvm:8848
+      use: false
+  application:
+    name: my
+
+rocketmq:
+  server-addr: labvm:9876

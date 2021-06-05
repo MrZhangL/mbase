@@ -7,8 +7,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="mutiThread" />
+        <module name="agent" />
+        <module name="agent-use" />
+        <module name="ZJUReporter" />
+        <module name="agent-def" />
+        <module name="toolLearn" />
         <module name="multiThread" />
+        <module name="mutiThread" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8" />

@@ -22,11 +22,14 @@ public class Daemon {
         t1.setDaemon(true);
         t1.start();
 
+
+
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        
         System.out.println("main线程结束");
     }
 }
